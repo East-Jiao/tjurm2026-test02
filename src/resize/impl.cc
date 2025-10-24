@@ -15,5 +15,14 @@ cv::Mat my_resize(const cv::Mat& input, float scale) {
      */
     int new_rows = input.rows * scale, new_cols = input.cols * scale;
     // IMPLEMENT YOUR CODE HERE
-    return cv::Mat::zeros(new_rows, new_cols, input.type());
+    using namespace cv;
+    Mat dst;
+    Size dsize;
+    dsize.height  = new_rows;
+    dsize.width   = new_cols;
+    resize(input,dst,dsize);
+    return dst;
+
+
+    //return cv::Mat::zeros(new_rows, new_cols, input.type());
 }

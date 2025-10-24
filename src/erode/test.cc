@@ -28,13 +28,14 @@ bool test_erode() {
 
         std::cout << "erode检查点1. 自行检查是否满足以下要求：" << std::endl
                 << "erode 之后的图像中，图中女孩头发里的白点被消除了(类似答案中的样子)" << std::endl
-                << "满足条件 则输入 p 通过, 否则输入 f 表示不通过" << std::endl;
+                << "满足条件 则输入 1 通过, 否则输入 0 表示不通过" << std::endl;
 
         int key;
-        while (key = cv::waitKey(0)) {
-            if (key == 'p') {
+        key = cv::waitKey(0);
+        while (true) {
+            if (key == 1) {
                 break;
-            } else if (key == 'f') {
+            } else if (key == 0) {
                 flag = false;
                 break;
             }
@@ -61,13 +62,14 @@ bool test_erode() {
 
         std::cout << "erode检查点2. 自行检查是否满足以下要求：" << std::endl
                 << "dilate 之后的图像中，图中的小脚被消除了(类似答案中的样子)" << std::endl
-                << "满足条件 则输入 p 通过, 否则输入 f 表示不通过" << std::endl;
+                << "满足条件 则输入 1 通过, 否则输入 0 表示不通过" << std::endl;
 
         int key;
-        while (key = cv::waitKey(0)) {
-            if (key == 'p') {
+        key = cv::waitKey(0);
+        while (true) {
+            if (key == 1) {
                 break;
-            } else if (key == 'f') {
+            } else if (key == 0) {
                 flag = false;
                 break;
             }

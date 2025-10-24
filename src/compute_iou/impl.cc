@@ -17,5 +17,21 @@ float compute_iou(const cv::Rect& a, const cv::Rect& b) {
      * 运行测试点，显示通过就行，不通过会告诉你哪一组矩形错了。
     */
     // IMPLEMENT YOUR CODE HERE
-    return 0.f;
+    using namespace cv;
+    //IOU = 重合面积 / 并的面积
+    int x1 = max(a.x,b.x);  //左上角
+    int y1 = max(a.y,b.y);
+    int x2 = min(a.x+a.width,b.x+b.width);  //右下角
+    int y2 = min(a.y+a.height,b.y+b.height);
+    int width = max(0,x2-x1);
+    int height = max(0,y2-y1);
+    double jiaoji = width * height;
+    double bingji = a.area() + b.area() - jiaoji;
+    float IOU;
+    if(bingji != 0)
+    {
+        IOU = jiaoji / bingji;
+    }
+
+    return IOU;
 }

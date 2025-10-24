@@ -46,6 +46,17 @@ std::vector<cv::Mat> erode(const cv::Mat& src_erode, const cv::Mat& src_dilate) 
     cv::Mat dst_erode, dst_dilate;
 
     // TODO: 在这里实现你的代码
+    using namespace cv;
+    Mat kernel = getStructuringElement(MORPH_RECT,Size(7,7));
+    Mat gray1,binary1,gray2,binary2;
+
+    cvtColor(src_erode,gray1,COLOR_BGR2GRAY);                //转化为灰度图
+    threshold(gray1,binary1,50,255,THRESH_BINARY);           //二值化
+    erode(binary1,dst_erode,getStructuringElement(MORPH_RECT,Size(3,3)),Point(-1,-1),3);
+    
+    cvtColor(src_dilate,gray2,COLOR_BGR2GRAY);               //灰
+    threshold(gray2,binary2,50,255,THRESH_BINARY);           //二
+    dilate(binary2,dst_dilate,kernel);
 
     return {dst_erode, dst_dilate};
 }

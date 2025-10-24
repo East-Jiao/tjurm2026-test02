@@ -10,7 +10,42 @@ std::pair<cv::Rect, cv::RotatedRect> get_rect_by_contours(const cv::Mat& input) 
      * 通过条件：
      * 运行测试点，你找到的矩形跟答案一样就行。
     */
-    std::pair<cv::Rect, cv::RotatedRect> res;
+    using namespace cv;
+
+    std::pair<Rect,RotatedRect> res;
     // IMPLEMENT YOUR CODE HERE
+    std::vector<std::vector<Point>> contours;
+    std::vector<Vec4i> hierarchy;
+    Mat gray,binary;
+    Rect rec;
+    RotatedRect rrec;
+
+    cvtColor(input, gray, COLOR_BGR2GRAY);                      //灰
+    threshold(gray, binary, 50, 255, THRESH_BINARY_INV);            //二
+    findContours(binary,contours,hierarchy,RETR_EXTERNAL,CHAIN_APPROX_SIMPLE);
+    
+
+    double max = contourArea(contours[0]);
+    if(contours.empty())
+    {
+        res.first = Rect();
+        res.second = RotatedRect();
+        return res;
+    }
+    else
+    {
+        for(int i = 1;i < contours.size();i++)
+        {
+            if(max > contourArea(contours[i]))
+            {
+                max = contourArea(contours[i]);
+            }
+        }
+    }
+    rec = boundingRect(contours[max]);
+    rrec = minAreaRect(contours[max]);
+    res.first = rec;
+    res.second = rrec;
+
     return res;
 }

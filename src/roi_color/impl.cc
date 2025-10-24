@@ -30,6 +30,41 @@ std::unordered_map<int, cv::Rect> roi_color(const cv::Mat& input) {
      */
     std::unordered_map<int, cv::Rect> res;
     // IMPLEMENT YOUR CODE HERE
+    using namespace cv;
+
+    Mat gray,binary;
+    std::vector<std::vector<Point>> contours;
+    std::vector<Point> approx;
+
+    cvtColor(input,gray,COLOR_BGR2GRAY);
+    threshold(gray,binary,0,255,THRESH_BINARY_INV|THRESH_OTSU);
+    findContours(binary,contours,RETR_EXTERNAL,CHAIN_APPROX_SIMPLE);
+    
+    for(int i = 0;i < contours.size();i++)
+    {
+        double pe = arcLength(contours[i],true);
+        approxPolyDP(contours[i],approx,0.01*pe,true);
+
+        if(approx.size() == 4 && isContourConvex(approx))
+        {
+            Rect rec = boundingRect(approx);
+            Mat roi = input(rec);
+        
+            Scalar color = mean(roi);
+            if(color[0] > color[1] && color[0] > color[2])
+            {
+                res[0] = rec;
+            }
+            if(color[1] > color[0] && color[1] > color[2])
+            {
+                res[1] = rec;
+            }
+            if(color[2] > color[0] && color[2] > color[1])
+            {
+                res[2] = rec;
+            }
+        }
+    }
 
     return res;
 }
